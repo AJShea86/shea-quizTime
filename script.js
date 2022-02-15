@@ -46,7 +46,7 @@ ansTwo.addEventListener("click", askQuestion);
 ansThree.addEventListener("click", askQuestion);
 ansFour.addEventListener("click", askQuestion);
 
-var timeLeft = 5;
+var timeLeft = 60;
 //This function starts the countdown
 function startTimer() {
   //   askQuestion();
@@ -80,6 +80,7 @@ function askQuestion(event) {
   } else {
     gameScore.textContent = userScore + "/" + questions.length;
     showAns.textContent = "Incorrect answer!";
+    timeLeft = timeLeft - 10;
 
     // wrong answer
   }
