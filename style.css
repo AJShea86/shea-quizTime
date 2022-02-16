@@ -1,8 +1,42 @@
 #quizQuest {
-    color:red;
-    
+  color: red;
+  display: flex;
+  justify-content: center;
 }
 
 #initials {
-    display: none;
+  display: none;
+}
+
+.startButton {
+  display: flex;
+  justify-content: center;
+}
+
+#gameScore {
+  display: flex;
+  justify-content: center;
+}
+
+.answerList {
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 25px;
+}
+
+.answerList:hover {
+  cursor: pointer;
+}
+
+#showAnswer {
+  display: flex;
+  justify-content: center;
+}
+
+#finScore {
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
+  color: green;
+  margin: 25px;
 }

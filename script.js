@@ -11,15 +11,16 @@ var ansList = document.getElementsByClassName("answerList");
 var initials = document.getElementById("initials");
 var initialsInput = document.getElementById("initialsInput");
 var submitButton = document.getElementById("submitButton");
+var savedInfo = document.getElementsByClassName("savedInput");
 
 var questionCount = 0;
 var userScore = 0;
 
-// Below is the array of objects containing the questions and answers
+// Array of objects containing questions and answers
 var questions = [
   {
     quest:
-      "What tag is used to define the bottom section (footer) of an HTML document?",
+      "What tag is used to define the bottom section of an HTML document?",
     answer: "<footer>",
     options: ["<footer>", "<container>", "<body>", "<p>"],
   },
@@ -57,15 +58,13 @@ submitButton.addEventListener("click", enterName);
 var timeLeft = 60;
 //This function starts the countdown
 function startTimer() {
-  //  askQuestion();
   var timer = setInterval(function () {
     timeLeft--;
     quizzer.textContent = timeLeft + " seconds remaining";
 
     if (timeLeft === 0 || questionCount === 5 || userScore === 5) {
       clearInterval(timer);
-      // window.alert("You have finished the quiz!");
-      //call a function here that allows user to enter initals and see the score
+
       scoreKeeper();
     }
   }, 1000);
@@ -80,11 +79,13 @@ function askQuestion(event) {
   console.log(questionCount);
 
   if (questionCount + 1 === questions.length) {
+        //Handles game over
     initials.style.display = "flex";
-    //Handles game over
     scoreKeeper();
+    clearInterval(timer);
+
+
     return;
-    console.log("abc");
   }
   var userChoiceId = event.target.id;
   console.log(userChoiceId, questions[questionCount].answer);
@@ -94,11 +95,11 @@ function askQuestion(event) {
   ) {
     //handles a correct answer
     userScore += 1;
-    gameScore.textContent = userScore + "/" + questions.length;
+    gameScore.textContent = "Questions answered: " + userScore + "/" + questions.length;
     showAns.textContent = "Correct answer!";
   } else {
     // handles a wrong answer
-    gameScore.textContent = userScore + "/" + questions.length;
+    gameScore.textContent = "Questions answered: " + userScore + "/" + questions.length;
     showAns.textContent = "Incorrect answer!";
     timeLeft = timeLeft - 10;
   }
@@ -112,11 +113,12 @@ function askQuestion(event) {
 }
 
 function scoreKeeper() {
-  // this will allow user to enter their initials
-  finalScore.textContent = userScore + timeLeft;
+  finalScore.textContent = "Final Score " + (userScore + timeLeft);
 }
 function enterName(event) {
   var name = initialsInput.value;
   localStorage.setItem("name", name);
   initialsInput.value = "";
+  savedInfo.textContent = "name" + finalScore
 }
+

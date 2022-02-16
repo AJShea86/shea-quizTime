@@ -9,7 +9,7 @@
   </head>
 
   <div>
-    <h1><button id="quiz">Start Quiz</button></h1>
+    <h1 class = "startButton"><button id="quiz">Start Quiz</button></h1>
     <p id="gameScore"></p>
   </div>
 
@@ -17,17 +17,17 @@
 
   <body>
     <div class = "answerList">
-      <div><p id="0"></p></div>
-      <div><p id="1"></p></div>
-      <div><p id="2"></p></div>
-      <div><p id="3"></p></div>
+      <div><p class = "firstAnswer" id="0"></p></div>
+      <div><p class = "secAnswer" id="1"></p></div>
+      <div><p class = "thirdAnswer" id="2"></p></div>
+      <div><p class = "fourAnswer" id="3"></p></div>
     </div>
     <div id="showAnswer"></div>
     <div id="finScore"></div>
     <div id = "initials"><input type="text" id = "initialsInput">
       <button id = "submitButton">Submit</button>
-
     </div>
+    <div><ul class = "savedInput"></ul></div>
 
 
     <script src="script.js"></script>
