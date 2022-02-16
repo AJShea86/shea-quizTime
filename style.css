@@ -1,4 +1,8 @@
 #quizQuest {
-    color:red; 
-};
+    color:red;
+    
+}
 
+#initials {
+    display: none;
+}

@@ -1,13 +1,16 @@
 var question = document.getElementById("quizQuest");
-var ansOne = document.getElementById("answerOne");
-var ansTwo = document.getElementById("answerTwo");
-var ansThree = document.getElementById("answerThree");
-var ansFour = document.getElementById("answerFour");
+var ansOne = document.getElementById("0");
+var ansTwo = document.getElementById("1");
+var ansThree = document.getElementById("2");
+var ansFour = document.getElementById("3");
 var quizzer = document.getElementById("quiz");
 var gameScore = document.getElementById("gameScore");
 var showAns = document.getElementById("showAnswer");
 var finalScore = document.getElementById("finScore");
 var ansList = document.getElementsByClassName("answerList");
+var initials = document.getElementById("initials");
+var initialsInput = document.getElementById("initialsInput");
+var submitButton = document.getElementById("submitButton");
 
 var questionCount = 0;
 var userScore = 0;
@@ -15,29 +18,32 @@ var userScore = 0;
 // Below is the array of objects containing the questions and answers
 var questions = [
   {
-    quest: "Here is question 1?",
-    answer: "answerOne",
-    incans: ["incorrect answer 1", "incorrect answer 2", "incorrect answer 3"],
+    quest:
+      "What tag is used to define the bottom section (footer) of an HTML document?",
+    answer: "<footer>",
+    options: ["<footer>", "<container>", "<body>", "<p>"],
   },
   {
-    quest: "Here is question 2?",
-    answer: "answerOne",
-    incans: ["incorrect answer 1", "incorrect answer 2", "incorrect answer 3"],
+    quest:
+      "What tag can be used to insert a line break or blank line in an HTML document?",
+    answer: "<br>",
+    options: ["<p>", "<head>", "<br>", "<title>"],
   },
   {
-    quest: "Here is question 3?",
-    answer: "answerOne",
-    incans: ["incorrect answer 1", "incorrect answer 2", "incorrect answer 3"],
+    quest: "What tag is used to underline a word or line of text?",
+    answer: "<u>",
+    options: ["<li>", "<u>", "<p>", "<ul>"],
   },
   {
-    quest: "Here is question 4?",
-    answer: "answerOne",
-    incans: ["incorrect answer 1", "incorrect answer 2", "incorrect answer 3"],
+    quest: "What tag is used to define a table or image notation (caption)?",
+    answer: "<caption>",
+    options: ["<embed>", "<code>", "<caption>", "<meta>"],
   },
   {
-    quest: "Here is question 5?",
-    answer: "answerOne",
-    incans: ["incorrect answer 1", "incorrect answer 2", "incorrect answer 3"],
+    quest:
+      "What group of tags are used to define the text headers in the body of the HTML document??",
+    answer: "<h1 to h6>",
+    options: ["<h1 to h6>", "<footer>", "<button>", "<table>"],
   },
 ];
 
@@ -46,11 +52,12 @@ ansOne.addEventListener("click", askQuestion);
 ansTwo.addEventListener("click", askQuestion);
 ansThree.addEventListener("click", askQuestion);
 ansFour.addEventListener("click", askQuestion);
+submitButton.addEventListener("click", enterName);
 
 var timeLeft = 60;
 //This function starts the countdown
 function startTimer() {
-  //   askQuestion();
+  //  askQuestion();
   var timer = setInterval(function () {
     timeLeft--;
     quizzer.textContent = timeLeft + " seconds remaining";
@@ -63,16 +70,28 @@ function startTimer() {
     }
   }, 1000);
   question.textContent = questions[questionCount].quest;
-  ansOne.textContent = questions[questionCount].answer;
-  ansTwo.textContent = questions[questionCount].incans[0];
-  ansThree.textContent = questions[questionCount].incans[1];
-  ansFour.textContent = questions[questionCount].incans[2];
+  ansOne.textContent = questions[questionCount].options[0];
+  ansTwo.textContent = questions[questionCount].options[1];
+  ansThree.textContent = questions[questionCount].options[2];
+  ansFour.textContent = questions[questionCount].options[3];
 }
 
 function askQuestion(event) {
-  var userAnswer = event.target.id;
+  console.log(questionCount);
 
-  if (userAnswer === questions[questionCount].answer) {
+  if (questionCount + 1 === questions.length) {
+    initials.style.display = "flex";
+    //Handles game over
+    scoreKeeper();
+    return;
+    console.log("abc");
+  }
+  var userChoiceId = event.target.id;
+  console.log(userChoiceId, questions[questionCount].answer);
+  if (
+    questions[questionCount].options[userChoiceId] ===
+    questions[questionCount].answer
+  ) {
     //handles a correct answer
     userScore += 1;
     gameScore.textContent = userScore + "/" + questions.length;
@@ -84,40 +103,20 @@ function askQuestion(event) {
     timeLeft = timeLeft - 10;
   }
 
-  if (questionCount < questions.length) {
-    questionCount += 1;
-  }
-};
+  questionCount += 1;
+  question.textContent = questions[questionCount].quest;
+  ansOne.textContent = questions[questionCount].options[0];
+  ansTwo.textContent = questions[questionCount].options[1];
+  ansThree.textContent = questions[questionCount].options[2];
+  ansFour.textContent = questions[questionCount].options[3];
+}
 
-
-function scoreKeeper(){
+function scoreKeeper() {
   // this will allow user to enter their initials
-  finalScore.textContent = userScore + timeLeft
-};
-
-
-
-
-
-localStorage.setItem("endScore", userScore)
-localStorage.getItem
-
-
-
-
-
-
-
-
-
-
-
-
-
-// console.log(userAnswer === questions[questionCount].answer);
-// question.textContent = questions[questionCount].quest;
-// ansOne.textContent = questions[questionCount].answer;
-// ansTwo.textContent = questions[questionCount].incans[0];
-// ansThree.textContent = questions[questionCount].incans[1];
-// ansFour.textContent = questions[questionCount].incans[2];
-// };
+  finalScore.textContent = userScore + timeLeft;
+}
+function enterName(event) {
+  var name = initialsInput.value;
+  localStorage.setItem("name", name);
+  initialsInput.value = "";
+}
