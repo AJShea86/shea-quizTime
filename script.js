@@ -7,6 +7,7 @@ var quizzer = document.getElementById("quiz");
 var gameScore = document.getElementById("gameScore");
 var showAns = document.getElementById("showAnswer");
 var finalScore = document.getElementById("finScore");
+var ansList = document.getElementsByClassName("answerList");
 
 var questionCount = 0;
 var userScore = 0;
@@ -54,9 +55,9 @@ function startTimer() {
     timeLeft--;
     quizzer.textContent = timeLeft + " seconds remaining";
 
-    if (timeLeft === 0) {
+    if (timeLeft === 0 || questionCount === 5 || userScore === 5) {
       clearInterval(timer);
-      window.alert("Times Up!");
+      window.alert("You have finished the quiz!");
       //call a function here that allows user to enter initals and see the score
     }
   }, 1000);
@@ -68,27 +69,34 @@ function startTimer() {
 }
 
 function askQuestion(event) {
-  console.log(event);
   var userAnswer = event.target.id;
 
   if (userAnswer === questions[questionCount].answer) {
-    //handle correct answer
+    //handles a correct answer
     userScore += 1;
     gameScore.textContent = userScore + "/" + questions.length;
-    // want to notify user answer was correct somehow
     showAns.textContent = "Correct answer!";
   } else {
+    // handles a wrong answer
     gameScore.textContent = userScore + "/" + questions.length;
     showAns.textContent = "Incorrect answer!";
     timeLeft = timeLeft - 10;
-
-    // wrong answer
   }
 
   if (questionCount < questions.length) {
     questionCount += 1;
   }
 }
+
+
+
+
+
+
+
+
+
+
 
 // console.log(userAnswer === questions[questionCount].answer);
 // question.textContent = questions[questionCount].quest;
