@@ -57,8 +57,9 @@ function startTimer() {
 
     if (timeLeft === 0 || questionCount === 5 || userScore === 5) {
       clearInterval(timer);
-      window.alert("You have finished the quiz!");
+      // window.alert("You have finished the quiz!");
       //call a function here that allows user to enter initals and see the score
+      scoreKeeper();
     }
   }, 1000);
   question.textContent = questions[questionCount].quest;
@@ -86,7 +87,22 @@ function askQuestion(event) {
   if (questionCount < questions.length) {
     questionCount += 1;
   }
-}
+};
+
+
+function scoreKeeper(){
+  // this will allow user to enter their initials
+  finalScore.textContent = userScore + timeLeft
+};
+
+
+
+
+
+localStorage.setItem("endScore", userScore)
+localStorage.getItem
+
+
 
 
 
