@@ -11,7 +11,8 @@ var ansList = document.getElementsByClassName("answerList");
 var initials = document.getElementById("initials");
 var initialsInput = document.getElementById("initialsInput");
 var submitButton = document.getElementById("submitButton");
-var savedInfo = document.getElementsByClassName("savedInput");
+var savedInfo = document.getElementById("savedInput");
+var highScores = JSON.parse(localStorage.getItem("names")) || [];
 
 var questionCount = 0;
 var userScore = 0;
@@ -19,8 +20,7 @@ var userScore = 0;
 // Array of objects containing questions and answers
 var questions = [
   {
-    quest:
-      "What tag is used to define the bottom section of an HTML document?",
+    quest: "What tag is used to define the bottom section of an HTML document?",
     answer: "<footer>",
     options: ["<footer>", "<container>", "<body>", "<p>"],
   },
@@ -56,13 +56,14 @@ ansFour.addEventListener("click", askQuestion);
 submitButton.addEventListener("click", enterName);
 
 var timeLeft = 60;
-//This function starts the countdown
+var timer;
 function startTimer() {
-  var timer = setInterval(function () {
+ timer = setInterval(function () {
     timeLeft--;
     quizzer.textContent = timeLeft + " seconds remaining";
-
-    if (timeLeft === 0 || questionCount === 5 || userScore === 5) {
+console.log("questionCount: ",questionCount)
+    if (timeLeft === 0) {
+      console.log("hello")
       clearInterval(timer);
 
       scoreKeeper();
@@ -75,15 +76,18 @@ function startTimer() {
   ansFour.textContent = questions[questionCount].options[3];
 }
 
+
+
 function askQuestion(event) {
   console.log(questionCount);
 
   if (questionCount + 1 === questions.length) {
-        //Handles game over
+    //Handles game over
     initials.style.display = "flex";
-    scoreKeeper();
     clearInterval(timer);
 
+    scoreKeeper();
+    // clearInterval(timer);
 
     return;
   }
@@ -95,11 +99,13 @@ function askQuestion(event) {
   ) {
     //handles a correct answer
     userScore += 1;
-    gameScore.textContent = "Questions answered: " + userScore + "/" + questions.length;
+    // gameScore.textContent =
+      // "Correct Answers: " + userScore + "/" + questions.length;
     showAns.textContent = "Correct answer!";
   } else {
     // handles a wrong answer
-    gameScore.textContent = "Questions answered: " + userScore + "/" + questions.length;
+    // gameScore.textContent =
+      // "Correct Answers: " + userScore + "/" + questions.length;
     showAns.textContent = "Incorrect answer!";
     timeLeft = timeLeft - 10;
   }
@@ -117,8 +123,15 @@ function scoreKeeper() {
 }
 function enterName(event) {
   var name = initialsInput.value;
-  localStorage.setItem("name", name);
-  initialsInput.value = "";
-  savedInfo.textContent = "name" + finalScore
-}
+  highScores.push(name)
+  localStorage.setItem("names", JSON.stringify(highScores));
+  console.log(savedInfo);
 
+  var initialsName = JSON.parse(localStorage.getItem("names"))
+
+  savedInfo.textContent = "Initials: " + initialsName + " " + "Score: " + (userScore + timeLeft) + " ";
+
+  initialsInput.value = ""; //this clears the text field after clicking submit
+
+  console.log(name);
+}
