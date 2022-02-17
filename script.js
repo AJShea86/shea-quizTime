@@ -58,12 +58,10 @@ submitButton.addEventListener("click", enterName);
 var timeLeft = 60;
 var timer;
 function startTimer() {
- timer = setInterval(function () {
+  timer = setInterval(function () {
     timeLeft--;
     quizzer.textContent = timeLeft + " seconds remaining";
-console.log("questionCount: ",questionCount)
     if (timeLeft === 0) {
-      console.log("hello")
       clearInterval(timer);
 
       scoreKeeper();
@@ -76,36 +74,26 @@ console.log("questionCount: ",questionCount)
   ansFour.textContent = questions[questionCount].options[3];
 }
 
-
-
 function askQuestion(event) {
-  console.log(questionCount);
-
   if (questionCount + 1 === questions.length) {
     //Handles game over
     initials.style.display = "flex";
     clearInterval(timer);
 
     scoreKeeper();
-    // clearInterval(timer);
 
     return;
   }
   var userChoiceId = event.target.id;
-  console.log(userChoiceId, questions[questionCount].answer);
   if (
     questions[questionCount].options[userChoiceId] ===
     questions[questionCount].answer
   ) {
     //handles a correct answer
     userScore += 1;
-    // gameScore.textContent =
-      // "Correct Answers: " + userScore + "/" + questions.length;
     showAns.textContent = "Correct answer!";
   } else {
     // handles a wrong answer
-    // gameScore.textContent =
-      // "Correct Answers: " + userScore + "/" + questions.length;
     showAns.textContent = "Incorrect answer!";
     timeLeft = timeLeft - 10;
   }
@@ -121,17 +109,21 @@ function askQuestion(event) {
 function scoreKeeper() {
   finalScore.textContent = "Final Score " + (userScore + timeLeft);
 }
+
 function enterName(event) {
   var name = initialsInput.value;
-  highScores.push(name)
-  localStorage.setItem("names", JSON.stringify(highScores));
-  console.log(savedInfo);
+  localStorage.setItem(name, userScore + timeLeft);
+  initialsInput.value = "";
+  displayScores();
+}
 
-  var initialsName = JSON.parse(localStorage.getItem("names"))
-
-  savedInfo.textContent = "Initials: " + initialsName + " " + "Score: " + (userScore + timeLeft) + " ";
-
-  initialsInput.value = ""; //this clears the text field after clicking submit
-
-  console.log(name);
+function displayScores() {
+  var length = localStorage.length;
+  for (var i = 0; i < length; i++) {
+    var key = localStorage.key(i);
+    var value = Number(localStorage[key]);
+    var element = document.createElement("li");
+    element.innerHTML = `Initials: ${key} : Score: ${value}`;
+    savedInfo.appendChild(element);
+  }
 }
